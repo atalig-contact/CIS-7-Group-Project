@@ -68,6 +68,7 @@ languageProbability: Find distribution of students in country based on language
 
 **WORK IN PROGRESS**
 */
+/*
 class Country{
   private:
   string name;
@@ -87,7 +88,7 @@ class Country{
   }
 
 
-}
+}*/
 
 
 int main() {
