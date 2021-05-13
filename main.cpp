@@ -9,6 +9,8 @@ const vector<string> specializations {"Cardiology", "Gastroenterology", "Interna
                                       "Neurology", "Psychiatry"};
 
                                       //multidimensional vector so, Hong Kong, English would be location[2,3]
+
+//Atalig: Might need to change this. It makes mores sense for countries to have multiple languages.
 const vector<vector<string>> location {{"France", "French"}, {"Hong Kong", "Cantonese", "English"},                                                              {"India", "Hindi"}, {"United States","English", "Spanish"},                                                               {"Brazil","Portugese"}, {"Spain","Spanish"}, {"Argentina",                                                                 "Spanish"}, {"South Korea", "Korean"}, {"Czech Republic",
                                       "Czech"}, {"Mexico", "Spanish"}, {"Spain", "Spanish"}}; 
 
@@ -17,9 +19,9 @@ const vector<string> languages {"French", "Cantonese", "English", "Hindi", "Span
 
 class Student{
   public:
-      void randomizeStudent()
+      Student()   //Atalig: make sure to always have srand(time(0)) in main when using this class
       {
-        srand(time(NULL));
+        
         unsigned short index;
 
         index = rand() % 5;   //randomly sets a specialization
@@ -51,13 +53,11 @@ class Student{
 
 
 int main() {
+  srand(time(0));
+  vector<Student> participants (100); //vector of Students initialized w 100 elements
   
-  vector<Student> participants (3); //vector of Students initialized w 100 elements
-  
-  for(int i=0;i<participants.size();++i) //test loop
+  for(int i = 0; i < participants.size(); ++i) //test loop
     {
-        for(int k=0;k<participants.size();++k)
-          { participants[k].randomizeStudent(); }
       cout << "Student " << i << " " << participants[i].getSpecialization() 
            << " " << participants[i].getLanguage() << endl  ;
     }
