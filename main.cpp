@@ -14,7 +14,16 @@ const vector<string> specializations {"Cardiology", "Gastroenterology", "Interna
 
 //
 
+/*
+*****IMPORTANT******: A possible solution for correctly distributing the students equally across the Countries. Create temporary vectors to filter
+the participants and countries by a language. Create a Nested Loop:
+While the filtered student vector is nonempty
+    for every country
+      add one student
 
+Since these vectors are temporary and are already filtered, we can use pop_back() funciton
+
+*/
 
 
 
@@ -173,7 +182,7 @@ int main() {
   int testStudentTotal = 0; //Temporary, Make sure students add to 100
 
 
-  vector<Student> participants (1000); //vector of Students initialized w 100 elements
+  vector<Student> participants (100000); //vector of Students initialized w 100 elements
   
   /*
   for(int i = 0; i < participants.size(); ++i) //test loop
