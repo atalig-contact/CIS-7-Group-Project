@@ -106,6 +106,8 @@ class Country{
     return;
   }
 
+  void addStudent()
+
   double pLang(string l){
     double acc = 0;
     
@@ -190,7 +192,71 @@ int main() {
       cout << "Student " << i << " " << participants[i].getSpecialization() 
            << " " << participants[i].getLanguage() << endl  ;
     }
-    */
+  */
+
+
+
+
+/*
+create filtered country vector
+create filtered student vector
+
+for each language in laguage vector
+  clear country vector
+  clear student vector
+
+  for each country
+    if country match language, add to filtered country vector
+  for each student
+    if student match language, add to filted student vector
+    fill "null" for main student vector
+
+
+    until student vector is empty
+      for each country in filtered country vector
+        add 1 student
+        pop student from filtered student vector
+
+  
+
+
+
+*/
+
+vector<Country> filteredCountry;
+vector<Student> filteredStudent;
+
+for(auto l : languages){
+  filteredCountry.clear();
+  filteredStudent.clear();
+
+  for(auto c : Countries){
+    
+    //Make sure that this vector gets deleted in memory.
+    vector<string> tempLang = c.getCopyOfLang();
+    for(int i = 0; i < tempLang.size(); i++){
+      if(tempLang[i] == l){
+        filteredCountry.push_back(c);
+        }
+      }
+    }
+      
+   for (int i = 0; i < participants.size(); i++)
+      {
+        if (participants[i].getLanguage() == l){
+          filteredStudent.push_back(participants[i]);
+          participants[i].clearStudent();
+        }
+  }
+
+  while(filteredStudent.empty() == true){
+    for(int i = 0; i < filteredCountry.size(); i++){
+      
+    }
+  }
+}
+
+
 
     
   for(auto c : Countries)
