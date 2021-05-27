@@ -25,6 +25,12 @@ Since these vectors are temporary and are already filtered, we can use pop_back(
 
 */
 
+/*
+
+Filteration Loop is working. However, we are having issues with referencing Country and Student vector. Our function only gets a copy of a Country object, instead of referencing it. Our provisional solution is to use additional collecting vector. We need find a proper way to reference the Countries vectors such that we can edit the Country objects.
+
+*/
+
 
 
 
@@ -106,7 +112,10 @@ class Country{
     return;
   }
 
-  void addStudent()
+  void addStudent(vector<Student> &s)
+  {
+    this->students.push_back(s.back());
+  }
 
   double pLang(string l){
     double acc = 0;
@@ -184,7 +193,7 @@ int main() {
   int testStudentTotal = 0; //Temporary, Make sure students add to 100
 
 
-  vector<Student> participants (100000); //vector of Students initialized w 100 elements
+  vector<Student> participants (100); //vector of Students initialized w 100 elements
   
   /*
   for(int i = 0; i < participants.size(); ++i) //test loop
@@ -226,6 +235,9 @@ for each language in laguage vector
 vector<Country> filteredCountry;
 vector<Student> filteredStudent;
 
+vector<Country> tempCountry;
+
+
 for(auto l : languages){
   filteredCountry.clear();
   filteredStudent.clear();
@@ -240,6 +252,9 @@ for(auto l : languages){
         }
       }
     }
+
+    cout << "\n\nCompleted filtering Countries\n\n";
+    cout << "Filtered Country Size: " << filteredCountry.size() << endl << endl;
       
    for (int i = 0; i < participants.size(); i++)
       {
@@ -249,16 +264,102 @@ for(auto l : languages){
         }
   }
 
-  while(filteredStudent.empty() == true){
+    cout << "\n\nComplted filtering Students\n\n";
+    cout << "Filtered Student Size: " << filteredStudent.size() << endl << endl;
+ 
+  while(filteredStudent.size() != 0)
+  {
+    cout << "\n In while loop\n";
     for(int i = 0; i < filteredCountry.size(); i++){
-      
+      cout << "\n In for loop\n";
+       if (filteredStudent.size() == 0)
+        break;
+      filteredCountry[i].addStudent(filteredStudent);
+      filteredStudent.pop_back();
     }
   }
+
+  for (auto x : filteredCountry)
+  {
+    tempCountry.push_back(x);
+  }
+  
 }
 
+for(auto c : tempCountry)
+  {
+    c.printInfo();
+    cout << c.getStudentSize() << endl << endl;
+    testStudentTotal += c.getStudentSize();
+  
+  }
+
+/*
+vector<Country *> filteredCountry;
+vector<Student *> filteredStudent;
+
+//Temporary
+vector<Country *> CountryPointers;
+vector<Student *> StudentPointers;
+
+
+for(auto l : languages){
+  filteredCountry.clear();
+  filteredStudent.clear();
+
+
+
+   for(int i; i < Countries.size(); i++)
+  {
+    Country* ptr = &Countries[i];
+    CountryPointers.push_back(ptr);
+
+  }
+
+  for (int i; i < participants.size(); i++)
+  {
+    Student* ptr = &participants[i];
+    StudentPointers.push_back(ptr);
+  }
+
+  for(auto c : CountryPointers){
+    
+    //Make sure that this vector gets deleted in memory.
+    vector<string> tempLang = c->getCopyOfLang();
+    for(int i = 0; i < tempLang.size(); i++){
+      if(tempLang[i] == l){
+        
+        filteredCountry.push_back(c);
+        }
+      }
+    }
+      
+   for (int i = 0; i < participants.size(); i++)
+      {
+        if (StudentPointers[i]->getLanguage() == l){
+          filteredStudent.push_back(StudentPointers[i]);
+          participants[i].clearStudent();
+        }
+  }
+
+    for(int i = 0; i < filteredCountry.size(); i++){
+      if (filteredStudent.empty() == true)
+        break;
+      filteredCountry[i]->addStudent(filteredStudent);
+    }
+}
+    
+  for(auto c : Countries)
+  {
+    c.printInfo();
+    cout << c.getStudentSize() << endl << endl;
+    testStudentTotal += c.getStudentSize();
+  }
+*/
 
 
     
+ /*
   for(auto c : Countries)
   {
     for (auto l : c.getCopyOfLang())
@@ -278,6 +379,7 @@ for(auto l : languages){
     cout << c.getStudentSize() << endl << endl;
     testStudentTotal += c.getStudentSize();
   }
+ */
 
 //Atalig: I'm pretty sure there's a word for console messages for programmers during development, though I've completely forgotten it. So for now
 //dev message will do.
