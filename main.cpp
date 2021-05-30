@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <vector>
 #include <cstdlib> 
 #include <ctime>
@@ -124,7 +125,7 @@ class Country{
       if (stu.getLanguage() == l)
         acc += 1;
     
-    return acc / this->students.size();
+    return (acc / this->students.size())*100;
   }
 
   double pSpecial(string s){
@@ -134,7 +135,7 @@ class Country{
       if (stu.getSpecialization() == s)
         acc += 1;
     
-    return acc / this->students.size();
+    return (acc / this->students.size())*100;
   }
 
   void printInfo(){
@@ -143,12 +144,12 @@ class Country{
     cout << "Percentage of Students by Language: \n\n";
 
     for (auto l: this->languages)
-      cout << l << ": " << this->pLang(l) << endl;
+      cout << l << ": " << setprecision(3) << this->pLang(l) << "%" << endl;
 
     cout << "\nPercentage of Students by Specialization\n\n";
 
     for (auto sp : specializations)
-      cout << sp << ": " << this->pSpecial(sp) << endl;
+      cout << sp << ": " << this->pSpecial(sp)  << "%" << endl;
 
     cout << endl;
     return;
@@ -158,8 +159,11 @@ class Country{
 
 //NOTE (Atalig): Rearrange class objects into separate files. Move this global vector back to beginning afterwards.
 //Atalig: Adding languges to countries requires vector be accessible and not constant.
-
+/*
 vector<Country> Countries {Country("India"), Country("South Korea"), Country("Brazil"), Country("Namibia"), Country("China"), Country("TestCountry") } ;
+*/
+
+vector<Country> Countries {Country("India"), Country("South Korea"), Country("Brazil"), Country("Namibia"), Country("China"), Country("France"), Country("USA"), Country("Spain")};
 
 
 
@@ -174,10 +178,16 @@ int main() {
   Countries[2].addLanguage(languages[5]); //Brazil: Portugese
   Countries[3].addLanguage(languages[7]); //Namibia: Afrikaans, Oshiwambo
   Countries[3].addLanguage(languages[8]); 
-  Countries[4].addLanguage(languages[9]); //China: Mandarin
+  Countries[4].addLanguage(languages[9]); //China: Mandarin, Cantonese
+  Countries[4].addLanguage(languages[1]);
+  Countries[5].addLanguage(languages[0]); //France: French
+  Countries[6].addLanguage(languages[2]);  //USA: English
+  Countries[7].addLanguage(languages[4]);
 
   //Test Language
-  Countries[5].addLanguage(languages[0]);
+  
+  
+  Countries[5].addLanguage(languages[0]);  
   Countries[5].addLanguage(languages[1]);
   Countries[5].addLanguage(languages[2]);
   Countries[5].addLanguage(languages[3]);
@@ -188,6 +198,9 @@ int main() {
   Countries[5].addLanguage(languages[8]);
   Countries[5].addLanguage(languages[9]);
 
+
+
+
   
 
   int testStudentTotal = 0; //Temporary, Make sure students add to 100
@@ -195,15 +208,15 @@ int main() {
 
   vector<Student> participants (100); //vector of Students initialized w 100 elements
   
-  /*
+/*
   for(int i = 0; i < participants.size(); ++i) //test loop
     {
       cout << "Student " << i << " " << participants[i].getSpecialization() 
            << " " << participants[i].getLanguage() << endl  ;
     }
-  */
 
 
+*/
 
 
 /*
@@ -250,7 +263,7 @@ for(auto l : languages){
       if(tempLang[i] == l){
         filteredCountry.push_back(c);
         }
-      }
+      } 
     }
 
     cout << "\n\nCompleted filtering Countries\n\n";
@@ -286,7 +299,9 @@ for(auto l : languages){
   
 }
 
-for(auto c : tempCountry)
+Countries = tempCountry;
+
+for(auto c : Countries)
   {
     c.printInfo();
     cout << c.getStudentSize() << endl << endl;
