@@ -163,7 +163,7 @@ class Country{
 vector<Country> Countries {Country("India"), Country("South Korea"), Country("Brazil"), Country("Namibia"), Country("China"), Country("TestCountry") } ;
 */
 
-vector<Country> Countries {Country("India"), Country("South Korea"), Country("Brazil"), Country("Namibia"), Country("China"), Country("France"), Country("USA"), Country("Spain")};
+vector<Country> Countries {Country("India"), Country("South Korea"), Country("Brazil"), Country("Namibia"), Country("China"), Country("France"), Country("USA"), Country("Spain"), Country("TestCountry")};
 
 
 
@@ -184,8 +184,15 @@ int main() {
   Countries[6].addLanguage(languages[2]);  //USA: English
   Countries[7].addLanguage(languages[4]);
 
+  for (auto i : languages)
+  {
+    Countries[8].addLanguage(i);
+  }
+
   //Test Language
   
+
+  /*
   
   Countries[5].addLanguage(languages[0]);  
   Countries[5].addLanguage(languages[1]);
@@ -198,7 +205,7 @@ int main() {
   Countries[5].addLanguage(languages[8]);
   Countries[5].addLanguage(languages[9]);
 
-
+*/
 
 
   
