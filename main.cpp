@@ -4,13 +4,13 @@
 #include <cstdlib> 
 #include <ctime>
 #include<cstring> //Atalig: Might not need this
-using namespace std; //ik some people are picky about this so idk if u wanna use or not but prof doesnt care
+using namespace std; 
 
 //global variables
 const vector<string> specializations {"Cardiology", "Gastroenterology", "Internal medicine",
                                       "Neurology", "Psychiatry"};
 
-                                      //multidimensional vector so, Hong Kong, English would be location[2,3]
+
 
 
 //
@@ -78,10 +78,12 @@ class Student{
 class Country{
   private:
   string name;
+  
+
+  public:
   vector<string> languages;
   vector<Student> students;
 
-  public:
   Country(string n){
     name = n;
     return;
@@ -94,6 +96,10 @@ class Country{
   //Atalig: A pass by copy isn't ideal. We may want to change this
   vector<string> getCopyOfLang(){
     return this->languages;
+  }
+
+  vector<Student> getCopyOfStudent(){
+    return this->students;
   }
 
   //Atalig: Get size of student vector
@@ -113,9 +119,14 @@ class Country{
     return;
   }
 
-  void addStudent(vector<Student> &s)
+  void addStudent(vector<Student> s)
   {
     this->students.push_back(s.back());
+  }
+
+  void addStudent(Student s)
+  {
+    this->students.push_back(s);
   }
 
   double pLang(string l){
@@ -155,6 +166,10 @@ class Country{
     return;
   }
 
+  void printName(){
+    cout << endl << this->name << endl;
+  }
+
 };
 
 //NOTE (Atalig): Rearrange class objects into separate files. Move this global vector back to beginning afterwards.
@@ -184,10 +199,12 @@ int main() {
   Countries[6].addLanguage(languages[2]);  //USA: English
   Countries[7].addLanguage(languages[4]);
 
-  for (auto i : languages)
+  
+for (auto i : languages)
   {
     Countries[8].addLanguage(i);
   }
+  
 
   //Test Language
   
@@ -212,18 +229,16 @@ int main() {
 
   int testStudentTotal = 0; //Temporary, Make sure students add to 100
 
+  int filterTotal = 0;
 
-  vector<Student> participants (100); //vector of Students initialized w 100 elements
+
+  vector<Student> participants (10000); //vector of Students initialized w 100 elements
   
-/*
-  for(int i = 0; i < participants.size(); ++i) //test loop
-    {
-      cout << "Student " << i << " " << participants[i].getSpecialization() 
-           << " " << participants[i].getLanguage() << endl  ;
-    }
 
 
-*/
+
+
+
 
 
 /*
@@ -255,158 +270,144 @@ for each language in laguage vector
 vector<Country> filteredCountry;
 vector<Student> filteredStudent;
 
-vector<Country> tempCountry;
 
 
-for(auto l : languages){
+for(int l = 0; l < languages.size(); l++){                    //loops thru languages
   filteredCountry.clear();
   filteredStudent.clear();
 
-  for(auto c : Countries){
-    
+  for(int c = 0; c < Countries.size(); c++){                  //loops thru countries to add to filtered Country list if 
+                                                              // countries match the current language
     //Make sure that this vector gets deleted in memory.
-    vector<string> tempLang = c.getCopyOfLang();
-    for(int i = 0; i < tempLang.size(); i++){
-      if(tempLang[i] == l){
-        filteredCountry.push_back(c);
+    
+    for(int i = 0; i < Countries[c].languages.size(); i++){
+      if(Countries[c].languages[i] == languages[l]){
+        Country tempC = Countries[c];
+        tempC.students.clear();
+        filteredCountry.push_back(tempC);
         }
       } 
     }
 
-    cout << "\n\nCompleted filtering Countries\n\n";
-    cout << "Filtered Country Size: " << filteredCountry.size() << endl << endl;
+    
       
-   for (int i = 0; i < participants.size(); i++)
-      {
-        if (participants[i].getLanguage() == l){
-          filteredStudent.push_back(participants[i]);
-          participants[i].clearStudent();
-        }
+  for (int i = 0; i < participants.size(); i++)           //adds participants to filtered Student list if student 
+    {                                                     //matches current language  
+      if (participants[i].getLanguage() == languages[l]){
+        filteredStudent.push_back(participants[i]);
+        participants[i].clearStudent();
+      }
+    }
+
+   
+   cout << "No. of filtered Countries: " << filteredCountry.size() << endl;
+
+   int acc = 0;
+   for(int i = 0; i < filteredCountry.size(); i++)
+  {
+    acc += filteredCountry[i].students.size();
   }
 
-    cout << "\n\nComplted filtering Students\n\n";
-    cout << "Filtered Student Size: " << filteredStudent.size() << endl << endl;
+  cout << "Student size before distribution: " << acc << endl;
+
  
-  while(filteredStudent.size() != 0)
+  int currentSize = filteredStudent.size();
+  bool flagCheck = false;
+  while(currentSize != 0)
   {
-    cout << "\n In while loop\n";
+    //cout << "\n In while loop\n";
     for(int i = 0; i < filteredCountry.size(); i++){
-      cout << "\n In for loop\n";
-       if (filteredStudent.size() == 0)
-        break;
-      filteredCountry[i].addStudent(filteredStudent);
+      //cout << "\n In for loop\n";
+       if (filteredStudent.size() == 0){
+         flagCheck = true;
+         goto breakwhile;
+       }
+      filteredCountry[i].students.push_back(filteredStudent.back());
+      cout << "Filtered Country Size: " << filteredCountry[i].students.size() << endl;
       filteredStudent.pop_back();
+      
+    }
+
+    if (flagCheck == true){
+      breakwhile: break;
     }
   }
 
-  for (auto x : filteredCountry)
+  for(int i = 0; i < filteredCountry.size(); i++)
   {
-    tempCountry.push_back(x);
+    filterTotal += filteredCountry[i].students.size();
+  }
+ 
+
+
+
+
+
+  
+  
+  for (int k = 0 ; k < filteredCountry.size() ; k++)
+  {
+    for (int c = 0; c < Countries.size(); c++)
+    {
+
+
+
+      
+      if (filteredCountry[k].getName() == Countries[c].getName())
+        {
+          //temp vector; 
+          for (int j = 0; j < filteredCountry[k].students.size(); j++)
+          {
+            //vector.push_back(filteredCountry[k].students[j]))
+            Countries[c].students.push_back(filteredCountry[k].students[j]);
+            
+          }
+
+          cout << filteredCountry[k].getName() << " added " << filteredCountry[k].students.size() << " Students" << endl << endl;
+          
+        }
+         
+
+
+     
+    }
   }
   
-}
-
-Countries = tempCountry;
-
-for(auto c : Countries)
+  for(int i = 0; i < filteredCountry.size(); i++)
   {
-    c.printInfo();
-    cout << c.getStudentSize() << endl << endl;
-    testStudentTotal += c.getStudentSize();
-  
+    filteredCountry[i].students.clear();
   }
 
-/*
-vector<Country *> filteredCountry;
-vector<Student *> filteredStudent;
-
-//Temporary
-vector<Country *> CountryPointers;
-vector<Student *> StudentPointers;
-
-
-for(auto l : languages){
   filteredCountry.clear();
   filteredStudent.clear();
-
-
-
-   for(int i; i < Countries.size(); i++)
-  {
-    Country* ptr = &Countries[i];
-    CountryPointers.push_back(ptr);
-
-  }
-
-  for (int i; i < participants.size(); i++)
-  {
-    Student* ptr = &participants[i];
-    StudentPointers.push_back(ptr);
-  }
-
-  for(auto c : CountryPointers){
-    
-    //Make sure that this vector gets deleted in memory.
-    vector<string> tempLang = c->getCopyOfLang();
-    for(int i = 0; i < tempLang.size(); i++){
-      if(tempLang[i] == l){
-        
-        filteredCountry.push_back(c);
-        }
-      }
-    }
-      
-   for (int i = 0; i < participants.size(); i++)
-      {
-        if (StudentPointers[i]->getLanguage() == l){
-          filteredStudent.push_back(StudentPointers[i]);
-          participants[i].clearStudent();
-        }
-  }
-
-    for(int i = 0; i < filteredCountry.size(); i++){
-      if (filteredStudent.empty() == true)
-        break;
-      filteredCountry[i]->addStudent(filteredStudent);
-    }
+  
 }
-    
-  for(auto c : Countries)
+
+cout << "\n\n ************BREAK****************** \n\n" ;
+
+
+
+
+for(int c = 0; c < Countries.size(); c++)
   {
-    c.printInfo();
-    cout << c.getStudentSize() << endl << endl;
-    testStudentTotal += c.getStudentSize();
-  }
-*/
-
-
+    Countries[c].printInfo();
+    cout << Countries[c].getStudentSize() << endl << endl;
+    testStudentTotal += Countries[c].getStudentSize();
     
- /*
-  for(auto c : Countries)
-  {
-    for (auto l : c.getCopyOfLang())
-     {
-
-      
-      for (int i = 0; i < participants.size(); i++)
-      {
-       
-        if (participants[i].getLanguage() == l)
-          c.addStudent(participants, i);
-      }
-        
-     }
-    
-    c.printInfo();
-    cout << c.getStudentSize() << endl << endl;
-    testStudentTotal += c.getStudentSize();
+  
   }
- */
+
+  
+
+  
+  
+
 
 //Atalig: I'm pretty sure there's a word for console messages for programmers during development, though I've completely forgotten it. So for now
 //dev message will do.
   cout << "\n\nDev Message - Size of participants: " << participants.size();
-  cout << "\n\nDev Message - total students (sum from each country: " << testStudentTotal;
+  cout << "\n\nDev Message - total students (sum from each country): " << testStudentTotal;
+  cout << "\n\nDev Message - total students (sum from filters): " << filterTotal;
   
 
 }
