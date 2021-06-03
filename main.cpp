@@ -12,7 +12,7 @@ const vector<string> specializations {"Cardiology", "Gastroenterology", "Interna
 
 //List of languages. Referenced by student and country classes
 const vector<string> languages {"French", "Cantonese", "English", "Hindi", "Spanish", "Portugese",
-                                "Korean", "Afrikaans", "Oshiwambo", "Mandarin"}; 
+                                "Korean", "Afrikaans", "Oshiwambo", "Mandarin", "Russian", "Arabic", "Estonian", "Malay", "Argentina", "German", "Slovakian", "Haitian"}; 
 
 class Student{
   public:
@@ -124,7 +124,7 @@ class Country{
 
 
 //List of countries
-vector<Country> Countries {Country("India"), Country("South Korea"), Country("Brazil"), Country("Namibia"), Country("China"), Country("France"), Country("USA"), Country("Spain"), Country("TestCountry")};
+vector<Country> Countries {Country("India"), Country("South Korea"), Country("Brazil"), Country("Namibia"), Country("China"), Country("France"), Country("USA"), Country("Spain"), Country("Russia"), Country("Iraq"),Country("Jamaica"), Country("Estonia"), Country("Malaysia"), Country("Algeria"), Country("Argentina"), Country("Germany"), Country("Slovakia"), Country("Mexico"), Country("Haiti")};
 
 
 
@@ -142,24 +142,27 @@ int main() {
   Countries[5].addLanguage(languages[0]); //France: French
   Countries[6].addLanguage(languages[2]);  //USA: English
   Countries[7].addLanguage(languages[4]);
+  Countries[8].addLanguage(languages[10]);//Russia: Russian
+  Countries[9].addLanguage(languages[11]);//Iraq: Arabic
+  Countries[10].addLanguage(languages[2]);//Jamaica: English
+  Countries[11].addLanguage(languages[12]);//Estonia: Estonian
+  Countries[12].addLanguage(languages[13]);//Malaysia: Malay
+  Countries[13].addLanguage(languages[11]);//Algeria: Arabic
+  Countries[14].addLanguage(languages[14]);//Argentina: Spanish
+  Countries[15].addLanguage(languages[15]);//German: Germany
+  Countries[16].addLanguage(languages[16]);//Slovakia: Slovakian
+  Countries[17].addLanguage(languages[4]);//Mexico: Spanish
+  Countries[18].addLanguage(languages[17]);//Haiti: Haitian
+  Countries[18].addLanguage(languages[0]);//Haiti: French
 
   
-for (auto i : languages)
-  {
-    Countries[8].addLanguage(i);
-  }
-  
-
-  int testStudentTotal = 0; //Temporary, Make sure students add to 100
-
-  int filterTotal = 0;
 
 
-  vector<Student> participants (100); //vector of Students initialized w 100 elements
+  vector<Student> participants (1000); //vector of Students initialized w 100 elements
   
 
 
-//These vectors will filtere
+//These vectors will filter
 vector<Country> filteredCountry;
 vector<Student> filteredStudent;
 
@@ -222,11 +225,6 @@ for(int l = 0; l < languages.size(); l++){
     
   }
 
-//Check for no duplicates
-  for(int i = 0; i < filteredCountry.size(); i++)
-  {
-    filterTotal += filteredCountry[i].students.size();
-  }
  
   
 //For each filtered country, match back to the original country from Countries list, and dump students into the original country
@@ -250,9 +248,5 @@ for(int l = 0; l < languages.size(); l++){
 for(int c = 0; c < Countries.size(); c++)
   {
     Countries[c].printInfo();
-    testStudentTotal += Countries[c].students.size();
   }
-
-  
-
 }
